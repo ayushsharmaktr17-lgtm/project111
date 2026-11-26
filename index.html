@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Study Discussion Group</title>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f6fb;
+      color: #222;
+      line-height: 1.6;
+    }
+
+    nav {
+      background: #1b2a41;
+      text-align: center;
+      padding: 12px 10px;
+      position: sticky;
+      top: 0;
+      z-index: 5;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 12px;
+      display: inline-block;
+    }
+    nav a:hover { color: #7fb5ff; }
+
+    header {
+      background: #2f5fd0;
+      color: white;
+      text-align: center;
+      padding: 50px 20px;
+    }
+    header h1 { font-size: 34px; margin-bottom: 8px; }
+
+    section {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 35px 20px 5px;
+    }
+    h2 { margin-bottom: 15px; color: #1b2a41; }
+
+    .card {
+      background: white;
+      border-radius: 10px;
+      padding: 18px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 15px;
+    }
+
+    button {
+      background: #2f5fd0;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 15px;
+    }
+    button:hover { background: #2349a8; }
+
+    /* Group tabs */
+    #tabs { margin-bottom: 12px; }
+    #tabs button {
+      background: #e3e9f3;
+      color: #1b2a41;
+      margin: 0 6px 6px 0;
+    }
+    #tabs button.active { background: #1b2a41; color: white; }
+
+    /* Chat */
+    #messages {
+      height: 340px;
+      overflow-y: auto;
+      background: #f3f6fb;
+      border-radius: 10px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .bubble {
+      max-width: 75%;
+      padding: 8px 12px;
+      border-radius: 12px;
+      background: #dde3ee;
+      word-wrap: break-word;
+    }
+    .bubble.mine { align-self: flex-end; background: #2f5fd0; color: white; }
+    .bubble .sender { font-size: 12px; font-weight: bold; opacity: 0.8; }
+    .bubble .when { font-size: 10px; opacity: 0.7; text-align: right; }
+
+    #chat-row { display: flex; gap: 8px; }
+
+    /* Table + rules */
+    table { width: 100%; border-collapse: collapse; background: white; }
+    th, td { border: 1px solid #ddd; padding: 10px; text-align: left; font-size: 14px; }
+    th { background: #1b2a41; color: white; }
+    .table-wrap { overflow-x: auto; }
+
+    ol { background: white; padding: 15px 15px 15px 38px; border-radius: 10px; }
+    ol li { margin-bottom: 6px; }
+
+    footer {
+      text-align: center;
+      padding: 25px;
+      margin-top: 40px;
+      background: #1b2a41;
+      color: white;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#chat">Live Chat</a>
+    <a href="#schedule">Schedule</a>
+    <a href="#rules">Rules</a>
+  </nav>
+
+  <header id="home">
+    <h1>📚 Study Discussion Group</h1>
+    <p>Study together. Ask doubts. Chat online with your friends.</p>
+  </header>
+
+  <!-- LIVE CHAT -->
+  <section id="chat">
+    <h2>Live Chat</h2>
+    <div class="card">
+
+      <p style="margin-bottom:6px;"><b>1. Enter your name</b></p>
+      <input type="text" id="name" placeholder="Your name" maxlength="20" style="margin-bottom:14px;">
+
+      <p style="margin-bottom:6px;"><b>2. Choose a group</b></p>
+      <div id="tabs">
+        <button data-room="data-structures" class="active">Data Structures</button>
+        <button data-room="mathematics">Mathematics</button>
+        <button data-room="programming">Programming</button>
+        <button data-room="general">General</button>
+      </div>
+
+      <p style="margin-bottom:6px;"><b>3. Chat in: <span id="room-name">Data Structures</span></b></p>
+      <div id="messages"></div>
+
+      <div id="chat-row">
+        <input type="text" id="text" placeholder="Type a message..." autocomplete="off">
+        <button id="send">Send</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCHEDULE -->
+  <section id="schedule">
+    <h2>Weekly Schedule</h2>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Day</th><th>Time</th><th>Topic</th></tr>
+        <tr><td>Monday</td><td>7:00 PM</td><td>Data Structures</td></tr>
+        <tr><td>Wednesday</td><td>7:00 PM</td><td>Mathematics</td></tr>
+        <tr><td>Friday</td><td>7:00 PM</td><td>Programming</td></tr>
+        <tr><td>Sunday</td><td>5:00 PM</td><td>Revision and doubts</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- RULES -->
+  <section id="rules">
+    <h2>Group Rules</h2>
+    <ol>
+      <li>Be respectful to everyone.</li>
+      <li>Ask clear questions and say what you have already tried.</li>
+      <li>Help others when you know the answer.</li>
+      <li>No spam, no bad language, no cheating in exams.</li>
+      <li>Do not share personal details like phone numbers or passwords.</li>
+    </ol>
+  </section>
+
+  <footer>
+    © 2026 Study Discussion Group · Made by students, for students
+  </footer>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import {
+      getFirestore, collection, addDoc, query, orderBy, limit, onSnapshot, serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    // 🔴 PASTE YOUR FIREBASE CONFIG HERE
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    const db = getFirestore(initializeApp(firebaseConfig));
+
+    const nameInput = document.getElementById("name");
+    const messagesDiv = document.getElementById("messages");
+    const textInput = document.getElementById("text");
+    const roomLabel = document.getElementById("room-name");
+    const tabButtons = document.querySelectorAll("#tabs button");
+
+    // Remember the name on this device
+    try { nameInput.value = localStorage.getItem("studyName") || ""; } catch (e) {}
+    nameInput.addEventListener("input", () => {
+      try { localStorage.setItem("studyName", nameInput.value); } catch (e) {}
+    });
+
+    let currentRoom = "data-structures";
+    let stopListening = null;
+
+    // Open a group chat and show its messages live
+    function openRoom(room, label) {
+      currentRoom = room;
+      roomLabel.textContent = label;
+      messagesDiv.innerHTML = "";
+      if (stopListening) stopListening();
+
+      // newest 100 messages
+      const q = query(
+        collection(db, "rooms", room, "messages"),
+        orderBy("time", "desc"),
+        limit(100)
+      );
+
+      stopListening = onSnapshot(q, (snapshot) => {
+        messagesDiv.innerHTML = "";
+
+        snapshot.docs.reverse().forEach((d) => {
+          const m = d.data({ serverTimestamps: "estimate" });
+
+          const bubble = document.createElement("div");
+          bubble.className = "bubble";
+          if (m.name === nameInput.value.trim()) bubble.classList.add("mine");
+
+          const sender = document.createElement("div");
+          sender.className = "sender";
+          sender.textContent = m.name;
+
+          const text = document.createElement("div");
+          text.textContent = m.text;
+
+          const when = document.createElement("div");
+          when.className = "when";
+          if (m.time) {
+            when.textContent = m.time.toDate().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+          }
+
+          bubble.append(sender, text, when);
+          messagesDiv.appendChild(bubble);
+        });
+
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+      });
+    }
+
+    tabButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        tabButtons.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        openRoom(btn.dataset.room, btn.textContent);
+      });
+    });
+
+    // Send a message
+    async function sendMessage() {
+      const text = textInput.value.trim();
+      const name = nameInput.value.trim();
+
+      if (name === "") {
+        alert("Please enter your name first!");
+        nameInput.focus();
+        return;
+      }
+      if (text === "") return;
+
+      textInput.value = "";
+      try {
+        await addDoc(collection(db, "rooms", currentRoom, "messages"), {
+          name: name,
+          text: text,
+          time: serverTimestamp()
+        });
+      } catch (error) {
+        console.error(error);
+        alert("Message failed. Check your Firebase setup.");
+      }
+    }
+
+    document.getElementById("send").addEventListener("click", sendMessage);
+    textInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") sendMessage();
+    });
+
+    openRoom("data-structures", "Data Structures");
+  </script>
+
+</body>
+</html>
